@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and()
-                .logout()
+                // If we enable CSRF, the logout operation will require a POST request with the correct CSRF token.
+                // This is a bit difficult to do from Vaadin, so we just change it to an ordinary GET method:
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .and()
                 // Instead of disabling CSRF completely, we can just disable it for Vaadin POST requests.
                 .csrf().ignoringRequestMatchers(SecurityConfig::isVaadinInternalPostRequest)
