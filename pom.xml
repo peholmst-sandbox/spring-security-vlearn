@@ -8,6 +8,7 @@
         <module>server-push</module>
         <module>csrf</module>
         <module>custom-login-page</module>
+        <module>oauth</module>
     </modules>
 
     <parent>
