@@ -40,12 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers(
-                        "/resources/**",
-                        "/VAADIN/static/**",
-                        "/HEARTBEAT/**",
-                        "/frontend/**",
-                        "/frontend-es5/**",
-                        "/frontend-es6/**");
+                .antMatchers("/VAADIN/**");
     }
 }
