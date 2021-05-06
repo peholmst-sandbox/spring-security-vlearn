@@ -21,6 +21,9 @@ public class NaiveChatService {
         synchronized (listeners) {
             listenersToNotify = Set.copyOf(listeners);
         }
+        // We are notifying the listeners in the same thread that called `sendMessage()`.
+        // This means that the SecurityContextHolder contains the context of the user that called
+        // `sendMessage()``
         listenersToNotify.forEach(listener -> listener.onChatMessage(sender, message));
     }
 

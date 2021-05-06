@@ -54,6 +54,9 @@ public class DiaryRoute extends VerticalLayout {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         listenerRegistration = diary.registerListener(() -> {
+            // The only thing we do inside the server push call is to refresh the grid with the latest data.
+            // However this involves calling a service method that is protected by Spring Security, so we
+            // need to have the correct SecurityContext in the security context holder.
             getUI().ifPresent(ui -> ui.access(this::refreshGrid));
         });
         refreshGrid();
