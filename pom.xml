@@ -6,6 +6,7 @@
     <modules>
         <module>leaking-security-context</module>
         <module>server-push</module>
+        <module>csrf</module>
     </modules>
 
     <parent>
