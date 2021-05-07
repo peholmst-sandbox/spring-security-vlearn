@@ -35,6 +35,7 @@ public class DiaryRoute extends VerticalLayout {
         if (CurrentUser.hasRole("WRITER")) {
             var contentField = new TextField();
             var recordBtn = new Button("Record", event -> {
+                System.out.println(DiaryRoute.this + " is recording an entry in thread " + Thread.currentThread().getName());
                 diary.recordEntry(contentField.getValue());
                 contentField.clear();
                 contentField.focus();
@@ -48,6 +49,7 @@ public class DiaryRoute extends VerticalLayout {
     }
 
     private void refreshGrid() {
+        System.out.println(DiaryRoute.this + " is refreshing the grid in thread " + Thread.currentThread().getName());
         entries.setItems(diary.getEntries());
     }
 
@@ -57,6 +59,7 @@ public class DiaryRoute extends VerticalLayout {
             // The only thing we do inside the server push call is to refresh the grid with the latest data.
             // However this involves calling a service method that is protected by Spring Security, so we
             // need to have the correct SecurityContext in the security context holder.
+            System.out.println(DiaryRoute.this + " received an event in thread " + Thread.currentThread().getName());
             getUI().ifPresent(ui -> ui.access(this::refreshGrid));
         });
         refreshGrid();

@@ -59,7 +59,11 @@ public class ChatRoute extends VerticalLayout {
         var currentUser = CurrentUser.get().map(Authentication::getName).orElse("N/A");
         // The current user here is not actually the user who received the message, but the user who *sent* it.
         getUI().ifPresent(ui -> ui.access(() -> {
-            messagesLayout.add(new Div(new Text(String.format("%s to %s: %s", sender, currentUser, message))));
+            // The current user here depends on what thread ends up invoking this operation. It could be the same
+            // thread that called `onMessage()`, but also some other thread.
+            var currentUserAgain = CurrentUser.get().map(Authentication::getName).orElse("N/A");
+            messagesLayout.add(new Div(new Text(String.format("%s: %s to %s/%s: %s", Thread.currentThread().getName(), sender, currentUser, currentUserAgain,
+                    message))));
         }));
     }
 }
